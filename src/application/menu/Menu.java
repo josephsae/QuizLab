@@ -3,6 +3,7 @@ package application.menu;
 import javafx.animation.*;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,13 +14,16 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import application.game.Controller;
 
 /**
  * Esta clase define un objeto menú
@@ -28,11 +32,23 @@ import java.util.List;
  */
 public class Menu extends Application {
 
-	private static final int WIDTH = 1280;
-	private static final int HEIGHT = 720;
+	private static final int WIDTH = (int) Screen.getPrimary().getVisualBounds().getWidth();
+	private static final int HEIGHT = (int) Screen.getPrimary().getVisualBounds().getHeight();
 	private Stage primaryStage;
 
 	private List<Pair<String, Runnable>> menuData = Arrays.asList(new Pair<String, Runnable>("Jugar", () -> {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/game/maze.fxml"));
+			Parent root = loader.load();
+			primaryStage.setTitle("QuizLab");
+			Controller controller = loader.getController();
+			root.setOnKeyPressed(controller);
+	        primaryStage.setScene(new Scene(root, WIDTH, HEIGHT-20));
+			primaryStage.show();
+			root.requestFocus();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}), new Pair<String, Runnable>("Opciones de Juego", () -> {
 	}), new Pair<String, Runnable>("Creditos", () -> {
 	}), new Pair<String, Runnable>("Salir al escritorio", Platform::exit));
@@ -159,8 +175,9 @@ public class Menu extends Application {
 		this.primaryStage = primaryStage;
 		Scene scene = new Scene(createContent());
 
-		primaryStage.setTitle("Maze");
+		primaryStage.setTitle("QuizLab");
 		primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
 		primaryStage.show();
 	}
 
