@@ -245,7 +245,6 @@ public class Model {
 		this.enemy1Location = enemy1motionVector[1];
 		this.enemy2Velocity = enemy2motionVector[0];
 		this.enemy2Location = enemy2motionVector[1];
-
 	}
 
 	/**
