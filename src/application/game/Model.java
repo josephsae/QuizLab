@@ -220,7 +220,7 @@ public class Model {
 	}
 
 	private boolean gridContainsWall(Point2D location) {
-		return grid[(int) location.getX()][(int) location.getY()] == CellValue.WALL;
+		return this.grid[(int) location.getX()][(int) location.getY()] == CellValue.WALL;
 	}
 
 	private void stopPlayerMovement() {
@@ -239,12 +239,12 @@ public class Model {
 	 * @see moveEnemy
 	 */
 	public void moveEnemies() {
-		Point2D[] enemy1Data = moveEnemy(enemy1Velocity, enemy1Location);
-		Point2D[] enemy2Data = moveEnemy(enemy2Velocity, enemy2Location);
-		enemy1Velocity = enemy1Data[0];
-		enemy1Location = enemy1Data[1];
-		enemy2Velocity = enemy2Data[0];
-		enemy2Location = enemy2Data[1];
+		Point2D[] enemy1motionVector = moveEnemy(this.enemy1Velocity, this.enemy1Location);
+		Point2D[] enemy2motionVector = moveEnemy(this.enemy2Velocity, this.enemy2Location);
+		this.enemy1Velocity = enemy1motionVector[0];
+		this.enemy1Location = enemy1motionVector[1];
+		this.enemy2Velocity = enemy2motionVector[0];
+		this.enemy2Location = enemy2motionVector[1];
 
 	}
 
@@ -258,59 +258,52 @@ public class Model {
 	 *         enemigo
 	 */
 	public Point2D[] moveEnemy(Point2D velocity, Point2D location) {
-		Random generator = new Random();
-
 		if (isSameColumnAsPlayer(location)) {
-			velocity = moveTowardsPlayerInColumn(location, velocity);
+			velocity = moveTowardsPlayerInColumn(location);
 		} else if (isSameRowAsPlayer(location)) {
-			velocity = moveTowardsPlayerInRow(location, velocity);
-		} else {
-			velocity = moveRandomlyUntilWallCollision(location, velocity, generator);
+			velocity = moveTowardsPlayerInRow(location);
 		}
 
-		location = location.add(velocity);
-
-		Point2D[] data = { velocity, location };
-		return data;
+		return moveRandomlyUntilWallCollision(velocity, location);
 	}
 
 	private boolean isSameColumnAsPlayer(Point2D location) {
-		return location.getY() == playerLocation.getY();
+		return location.getY() == this.playerLocation.getY();
 	}
 
-	private boolean isSameRowAsPlayer(Point2D location) {
-		return location.getX() == playerLocation.getX();
-	}
-
-	private Point2D moveTowardsPlayerInColumn(Point2D location, Point2D velocity) {
-		if (location.getX() > playerLocation.getX()) {
+	private Point2D moveTowardsPlayerInColumn(Point2D location) {
+		if (location.getX() > this.playerLocation.getX()) {
 			return changeVelocity(Direction.UP);
 		} else {
 			return changeVelocity(Direction.DOWN);
 		}
 	}
 
-	private Point2D moveTowardsPlayerInRow(Point2D location, Point2D velocity) {
-		if (location.getY() > playerLocation.getY()) {
+	private boolean isSameRowAsPlayer(Point2D location) {
+		return location.getX() == this.playerLocation.getX();
+	}
+
+	private Point2D moveTowardsPlayerInRow(Point2D location) {
+		if (location.getY() > this.playerLocation.getY()) {
 			return changeVelocity(Direction.LEFT);
 		} else {
 			return changeVelocity(Direction.RIGHT);
 		}
 	}
 
-	private Point2D moveRandomlyUntilWallCollision(Point2D location, Point2D velocity, Random generator) {
+	private Point2D[] moveRandomlyUntilWallCollision(Point2D velocity, Point2D location) {
 		Point2D potentialLocation = location.add(velocity);
-
 		while (gridContainsWall(potentialLocation)) {
-			Direction randomDirection = getRandomDirection(generator);
+			Direction randomDirection = getRandomDirection();
 			velocity = changeVelocity(randomDirection);
 			potentialLocation = location.add(velocity);
 		}
-
-		return velocity;
+		location = potentialLocation;
+		return new Point2D[] { velocity, location };
 	}
 
-	private Direction getRandomDirection(Random generator) {
+	private Direction getRandomDirection() {
+		Random generator = new Random();
 		int randomNum = generator.nextInt(4);
 		return intToDirection(randomNum);
 	}
@@ -365,14 +358,14 @@ public class Model {
 	 */
 	public void step(Direction direction) {
 		movePlayer(direction);
-		updateFish();
+		updateFishCount();
 		checkEnemyCollision();
 		moveEnemies();
 		checkEnemyCollision();
 		checkLevelCompletion();
 	}
 
-	private void updateFish() {
+	private void updateFishCount() {
 		CellValue playerLocationCellValue = grid[(int) playerLocation.getX()][(int) playerLocation.getY()];
 		if (playerLocationCellValue == CellValue.FISH) {
 			grid[(int) playerLocation.getX()][(int) playerLocation.getY()] = CellValue.EMPTY;
