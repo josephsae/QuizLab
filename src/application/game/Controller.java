@@ -12,8 +12,7 @@ import java.util.TimerTask;
 public class Controller implements EventHandler<KeyEvent> {
 	final private static double FRAMES_PER_SECOND = 5.0;
 
-	private static final String[] levelFiles = { "src/levels/level_1.txt", "src/levels/level-2.txt",
-			"src/levels/level-3.txt" };
+	private static final String[] levelFiles = { "src/levels/level_1.txt" };
 
 	private String gameOverStyle = "-fx-font-size: 250%; -fx-font-family: 'Iceland'; -fx-text-fill: ";
 	@FXML
@@ -55,12 +54,12 @@ public class Controller implements EventHandler<KeyEvent> {
 		this.timer = new java.util.Timer();
 		long frameTimeInMilliseconds = (long) (1000.0 / FRAMES_PER_SECOND);
 
-	    TimerTask timerTask = new TimerTask() {
-	        @Override
-	        public void run() {
-	            Platform.runLater(() -> update(model.getCurrentDirection()));
-	        }
-	    };
+		TimerTask timerTask = new TimerTask() {
+			@Override
+			public void run() {
+				Platform.runLater(() -> update(model.getCurrentDirection()));
+			}
+		};
 
 		this.timer.schedule(timerTask, 0, frameTimeInMilliseconds);
 	}
@@ -106,6 +105,7 @@ public class Controller implements EventHandler<KeyEvent> {
 			this.model.setCurrentDirection(direction);
 		}
 	}
+
 	/**
 	 * Inicia un nuevo juego
 	 */
@@ -116,17 +116,18 @@ public class Controller implements EventHandler<KeyEvent> {
 		this.isPaused = false;
 		this.startTimer();
 	}
-	
+
 	/**
 	 * Valida si se terminó el juego para mostrar el mensaje apropiado
 	 */
 	private void checkGameOver() {
 		if (model.hasLostGame()) {
-			setGameOverLabel("Perdiste", "red");
+			setGameOverLabel("Perdiste", "red;");
 			pause();
 		}
 		if (model.hasWonGame()) {
-			setGameOverLabel("¡Ganaste!", "green");
+			setGameOverLabel("¡Ganaste!", "green;");
+			pause();
 		}
 	}
 
@@ -163,7 +164,7 @@ public class Controller implements EventHandler<KeyEvent> {
 	public void setGameOverLabel(String text, String color) {
 		this.gameOverLabel.setText(String.format(text));
 		if (color != "") {
-			this.gameOverLabel.setStyle(gameOverStyle + color + ";");
+			this.gameOverLabel.setStyle(gameOverStyle + color);
 		}
 	}
 }
