@@ -49,9 +49,9 @@ public class Model {
 	}
 
 	/**
-	 * Configura la cuadrícula según el archivo txt, coloca el personaje y los
+	 * Configura la cuadrícula según el archivo de texto, coloca el personaje y los
 	 * enemigos en sus ubicaciones iniciales. "W" indica un muro, "E" indica un
-	 * cuadrado vacío, "A" indica una manzana, "1" o "2" indica el punto de inicio
+	 * cuadrado vacío, "F" indica un pescado, "1" o "2" indica el punto de inicio
 	 * de los enemigos "P" indica el punto de inicio del personaje
 	 *
 	 * @param fileName Nombre del archivo de texto que tiene la configuración del
@@ -75,6 +75,12 @@ public class Model {
 		lastDirection = Direction.NONE;
 	}
 
+	/**
+	 * Calcular la cuadrícula que define el escenario
+	 * 
+	 * @param file Archivo de texto
+	 * @throws FileNotFoundException En caso de que no existe arhivo de texto para leer
+	 */
 	private void calculateGridSize(File file) throws FileNotFoundException {
 		try (Scanner scanner = new Scanner(file)) {
 			while (scanner.hasNextLine()) {
@@ -91,6 +97,12 @@ public class Model {
 		this.columnCount = columnCount / rowCount;
 	}
 
+	/**
+	 * Crea la cuadrícula que define el escenario
+	 * 
+	 * @param file Archivo de texto
+	 * @throws FileNotFoundException En caso de que no existe arhivo de texto para leer
+	 */
 	private void createGrid(File file) throws FileNotFoundException {
 		this.grid = new CellValue[this.rowCount][this.columnCount];
 		try (Scanner scanner = new Scanner(file)) {
@@ -107,6 +119,14 @@ public class Model {
 		}
 	}
 
+	/**
+	 * Según el valor de la cuadrícula se establece el tipo de celda que se mostrará  
+	 * 
+	 * @param value Valor de la cuadrícula
+	 * @param row Fila de la cuadrícula
+	 * @param column Columna de la cuadrícula
+	 * @return Valor que tomará la cuadrícula
+	 */
 	private CellValue parseCellValue(String value, int row, int column) {
 		CellValue cellValue;
 		switch (value) {
@@ -140,7 +160,7 @@ public class Model {
 	}
 
 	/**
-	 * Establece los valores del inico e inicia el escenario del nivel
+	 * Inicia el escenario del nivel
 	 */
 	public void startNewGame() {
 		this.hasLost = false;
@@ -181,7 +201,7 @@ public class Model {
 	/**
 	 * Mueva el personaje según la dirección indicada por el jugador
 	 * 
-	 * @param direction La dirección ingresada para que se mueva el personaje
+	 * @param direction La dirección ingresada
 	 */
 	public void movePlayer(Direction direction) {
 		Point2D potentialPlayerVelocity = changeVelocity(direction);
@@ -194,6 +214,11 @@ public class Model {
 		}
 	}
 
+	/**
+	 * 
+	 * @param potentialPlayerVelocity
+	 * @param potentialPlayerLocation
+	 */
 	private void handleSameDirectionMovement(Point2D potentialPlayerVelocity, Point2D potentialPlayerLocation) {
 		if (gridContainsWall(potentialPlayerLocation)) {
 			stopPlayerMovement();
@@ -202,6 +227,12 @@ public class Model {
 		}
 	}
 
+	/**
+	 * 
+	 * @param direction
+	 * @param potentialPlayerVelocity
+	 * @param potentialPlayerLocation
+	 */
 	private void handleDifferentDirectionMovement(Direction direction, Point2D potentialPlayerVelocity,
 			Point2D potentialPlayerLocation) {
 		if (gridContainsWall(potentialPlayerLocation)) {
@@ -212,6 +243,10 @@ public class Model {
 		}
 	}
 
+	/**
+	 * 
+	 * @param direction
+	 */
 	private void handleWallCollisionInDifferentDirection(Direction direction) {
 		Point2D potentialPlayerVelocity = changeVelocity(lastDirection);
 		Point2D potentialPlayerLocation = playerLocation.add(potentialPlayerVelocity);
@@ -223,15 +258,28 @@ public class Model {
 		}
 	}
 
+	/**
+	 * 
+	 * @param location
+	 * @return
+	 */
 	private boolean gridContainsWall(Point2D location) {
 		return this.grid[(int) location.getX()][(int) location.getY()] == CellValue.WALL;
 	}
 
+	/**
+	 * 
+	 */
 	private void stopPlayerMovement() {
 		this.playerVelocity = changeVelocity(Direction.NONE);
 		setLastDirection(Direction.NONE);
 	}
 
+	/**
+	 * 
+	 * @param velocity
+	 * @param location
+	 */
 	private void movePlayerToLocation(Point2D velocity, Point2D location) {
 		this.playerVelocity = velocity;
 		this.playerLocation = location;
@@ -270,10 +318,20 @@ public class Model {
 		return moveRandomlyUntilWallCollision(velocity, location);
 	}
 
+	/**
+	 * 
+	 * @param location
+	 * @return
+	 */
 	private boolean isSameColumnAsPlayer(Point2D location) {
 		return location.getY() == this.playerLocation.getY();
 	}
-
+	
+	/**
+	 * 
+	 * @param location
+	 * @return
+	 */
 	private Point2D moveTowardsPlayerInColumn(Point2D location) {
 		if (location.getX() > this.playerLocation.getX()) {
 			return changeVelocity(Direction.UP);
@@ -281,11 +339,21 @@ public class Model {
 			return changeVelocity(Direction.DOWN);
 		}
 	}
-
+	
+	/**
+	 * 
+	 * @param location
+	 * @return
+	 */
 	private boolean isSameRowAsPlayer(Point2D location) {
 		return location.getX() == this.playerLocation.getX();
 	}
 
+	/**
+	 * 
+	 * @param location
+	 * @return
+	 */
 	private Point2D moveTowardsPlayerInRow(Point2D location) {
 		if (location.getY() > this.playerLocation.getY()) {
 			return changeVelocity(Direction.LEFT);
@@ -294,6 +362,12 @@ public class Model {
 		}
 	}
 
+	/**
+	 * 
+	 * @param velocity
+	 * @param location
+	 * @return
+	 */
 	private Point2D[] moveRandomlyUntilWallCollision(Point2D velocity, Point2D location) {
 		Point2D potentialLocation = location.add(velocity);
 		while (gridContainsWall(potentialLocation)) {
@@ -305,6 +379,10 @@ public class Model {
 		return new Point2D[] { velocity, location };
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	private Direction getRandomDirection() {
 		Random generator = new Random();
 		int randomNum = generator.nextInt(4);
@@ -344,10 +422,16 @@ public class Model {
 		enemyVelocity = new Point2D(-1, 0);
 	}
 
+	/**
+	 * 
+	 */
 	public void sendEnemy1Home() {
 		sendEnemyHome(CellValue.ENEMY1HOME, enemy1Location, enemy1Velocity);
 	}
 
+	/**
+	 * 
+	 */
 	public void sendEnemy2Home() {
 		sendEnemyHome(CellValue.ENEMY2HOME, enemy2Location, enemy2Velocity);
 	}
@@ -368,6 +452,9 @@ public class Model {
 		checkLevelCompletion();
 	}
 
+	/**
+	 * 
+	 */
 	private void updateFishCount() {
 		CellValue playerLocationCellValue = grid[(int) playerLocation.getX()][(int) playerLocation.getY()];
 		if (playerLocationCellValue == CellValue.FISH) {
@@ -377,6 +464,9 @@ public class Model {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	private void checkEnemyCollision() {
 		if (playerLocation.equals(enemy1Location) || playerLocation.equals(enemy2Location)) {
 			hasLost = true;
@@ -384,6 +474,9 @@ public class Model {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	private void checkLevelCompletion() {
 		if (isLevelComplete()) {
 			playerVelocity = new Point2D(0, 0);
@@ -452,8 +545,8 @@ public class Model {
 	/**
 	 * Obtiene valor de la celda
 	 * 
-	 * @param fila
-	 * @param columna
+	 * @param row Fila de la celda
+	 * @param column Columna de la celda
 	 * @return Valor de la celda (row, column)
 	 */
 	public CellValue getCellValue(int row, int column) {
@@ -461,18 +554,34 @@ public class Model {
 		return this.grid[row][column];
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Direction getCurrentDirection() {
 		return currentDirection;
 	}
-
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public static Direction getLastDirection() {
 		return lastDirection;
 	}
-
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public int getScore() {
 		return score;
 	}
-
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public int getLevel() {
 		return level;
 	}
@@ -483,47 +592,93 @@ public class Model {
 	public int getFishCount() {
 		return fishCount;
 	}
-
+	
+	/**
+	 * Obtiene número de filas del escenario 
+	 * 
+	 * @return Número de filas del escenario 
+	 */
 	public int getRowCount() {
-		return rowCount;
+		return this.rowCount;
 	}
 
+	/**
+	 * Obtiene número de columnas del escenario 
+	 * 
+	 * @return Número de columnas del escenario 
+	 */
 	public int getColumnCount() {
-		return columnCount;
+		return this.columnCount;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Point2D getPlayerLocation() {
 		return playerLocation;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Point2D getEnemy1Location() {
 		return enemy1Location;
 	}
-
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public Point2D getEnemy2Location() {
 		return enemy2Location;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Point2D getPlayerVelocity() {
 		return playerVelocity;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Point2D getEnemy1Velocity() {
 		return enemy1Velocity;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Point2D getEnemy2Velocity() {
 		return enemy2Velocity;
 	}
 
+	/**
+	 * 
+	 * @param direction
+	 */
 	public void setCurrentDirection(Direction direction) {
 		currentDirection = direction;
 	}
 
+	/**
+	 * 
+	 * @param direction
+	 */
 	public void setLastDirection(Direction direction) {
 		lastDirection = direction;
 	}
 
+	/**
+	 * 
+	 * @param score
+	 */
 	public void setScore(int score) {
 		this.score = score;
 	}
@@ -531,51 +686,89 @@ public class Model {
 	/**
 	 * Añade a la puntuación
 	 *
-	 * @param puntos
+	 * @param points Puntos para ganar
 	 */
 	public void addToScore(int points) {
 		this.score += points;
 	}
-
+	
+	/**
+	 * 
+	 * @param level
+	 */
 	public void setLevel(int level) {
 		this.level = level;
 	}
 
 	/**
-	 * @return Establece el número de manzanas restantes
+	 * Establece el número de pescados restantes
 	 */
 	public void setFishCount(int fishCount) {
 		this.fishCount = fishCount;
 	}
 
+	/**
+	 * Establece número de filas del escenario 
+	 * 
+	 * @param rowCount Número de filas del escenario 
+	 */
 	public void setRowCount(int rowCount) {
 		this.rowCount = rowCount;
 	}
 
+	/**
+	 * Obtiene número de columnas del escenario 
+	 * 
+	 * @param columnCount Número de columnas del escenario 
+	 */
 	public void setColumnCount(int columnCount) {
 		this.columnCount = columnCount;
 	}
 
+	/**
+	 * 
+	 * @param playerLocation
+	 */
 	public void setPlayerLocation(Point2D playerLocation) {
 		this.playerLocation = playerLocation;
 	}
 
+	/**
+	 * 
+	 * @param enemy1Location
+	 */
 	public void setEnemy1Location(Point2D enemy1Location) {
 		this.enemy1Location = enemy1Location;
 	}
 
+	/**
+	 * 
+	 * @param enemy2Location
+	 */
 	public void setEnemy2Location(Point2D enemy2Location) {
 		this.enemy2Location = enemy2Location;
 	}
 
+	/**
+	 * 
+	 * @param velocity
+	 */
 	public void setPlayerVelocity(Point2D velocity) {
 		this.playerVelocity = velocity;
 	}
 
+	/**
+	 * 
+	 * @param enemy1Velocity
+	 */
 	public void setEnemy1Velocity(Point2D enemy1Velocity) {
 		this.enemy1Velocity = enemy1Velocity;
 	}
 
+	/**
+	 * 
+	 * @param enemy2Velocity
+	 */
 	public void setEnemy2Velocity(Point2D enemy2Velocity) {
 		this.enemy2Velocity = enemy2Velocity;
 	}

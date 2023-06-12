@@ -168,19 +168,39 @@ public class View extends Group {
 		this.fish = new Image(getClass().getResourceAsStream("/application/res/fish.png"));
 	}
 
+	/**
+	 * Obtiene número de filas del escenario 
+	 * 
+	 * @return Número de filas del escenario 
+	 */
 	public int getRowCount() {
 		return this.rowCount;
 	}
 
+	/**
+	 * Obtiene número de columnas del escenario 
+	 * 
+	 * @return Número de columnas del escenario 
+	 */
 	public int getColumnCount() {
 		return this.columnCount;
 	}
 
+	/**
+	 * Establece número de filas del escenario 
+	 * 
+	 * @param rowCount Número de filas del escenario 
+	 */
 	public void setRowCount(int rowCount) {
 		this.rowCount = rowCount;
 		this.initializeGrid();
 	}
 
+	/**
+	 * Obtiene número de columnas del escenario 
+	 * 
+	 * @param columnCount Número de columnas del escenario 
+	 */
 	public void setColumnCount(int columnCount) {
 		this.columnCount = columnCount;
 		this.initializeGrid();
