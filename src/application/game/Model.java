@@ -158,20 +158,24 @@ public class Model {
 	 *
 	 */
 	public void startNextLevel() {
-		if (this.isLevelComplete()) {
-			this.level++;
-			this.rowCount = 0;
-			this.columnCount = 0;
-			this.hasWon = false;
-			try {
-				this.initializeLevel(Controller.getLevelFile(level - 1));
-			} catch (ArrayIndexOutOfBoundsException e) {
-				// Si no hay más niveles que leer, el juego termina
-				this.hasWon = true;
-				this.hasLost = true;
-				this.level--;
-			}
+		this.level++;
+		this.rowCount = 0;
+		this.columnCount = 0;
+		this.hasWon = false;
+		try {
+			initializeLevel(Controller.getLevelFile(level - 1));
+		} catch (ArrayIndexOutOfBoundsException e) {
+			finishGame();
 		}
+	}
+
+	/**
+	 * Finaliza el juego cuando ya no hay más niveles
+	 *
+	 */
+	private void finishGame() {
+		this.hasWon = true;
+		this.level--;
 	}
 
 	/**
