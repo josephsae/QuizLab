@@ -345,6 +345,7 @@ public class Model {
 	 * @param location
 	 * @return
 	 */
+
 	private boolean isSameRowAsPlayer(Point2D location) {
 		return location.getX() == this.playerLocation.getX();
 	}
