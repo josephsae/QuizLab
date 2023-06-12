@@ -31,15 +31,14 @@ public class Controller implements EventHandler<KeyEvent> {
 	private boolean isPaused;
 
 	/**
-	 * Inicializa el controlador sin pausa
+	 * Inicializa el controlador del juego
 	 */
 	public Controller() {
 		this.isPaused = false;
 	}
 
 	/**
-	 * Inicializa y actualice el modelo y la vista desde el primer archivo txt e
-	 * inicie el temporizador.
+	 * Inicializa el modelo y el temporizador para empezar el juego
 	 */
 	public void initialize() {
 		this.model = new Model();
@@ -139,27 +138,48 @@ public class Controller implements EventHandler<KeyEvent> {
 		this.isPaused = true;
 	}
 
+	/**
+	 * Obtiene el ancho del escenario
+	 * 
+	 * @return Ancho del escenario
+	 */
 	public double getBoardWidth() {
 		return View.CELL_WIDTH * this.view.getColumnCount();
 	}
 
+	/**
+	 * Obtiene la altura del escenario
+	 * 
+	 * @return Altura del escenario
+	 */
 	public double getBoardHeight() {
 		return View.CELL_WIDTH * this.view.getRowCount();
 	}
 
+	/**
+	 * Obtiene el archivo del nivel que se va a jugar
+	 * 
+	 * @param x Número del arhivo que se quiere acceder
+	 * @return Archivo del nivel
+	 */
 	public static String getLevelFile(int x) {
 		return levelFiles[x];
 	}
 
 	/**
 	 * Obtiene estado para saber si el juego está pausado o no
+	 * 
+	 * @return Estado de pausa
 	 */
 	public boolean getPaused() {
 		return isPaused;
 	}
 
 	/**
-	 * Establece el texto y estilo para mostrar de un label
+	 * Establece el texto y estilo para mostrar en al finalizar el juego
+	 * 
+	 * @param text Texto del label
+	 * @param color Color del label
 	 */
 	public void setGameOverLabel(String text, String color) {
 		this.gameOverLabel.setText(String.format(text));
