@@ -345,6 +345,7 @@ public class Model {
 	 * @param location
 	 * @return
 	 */
+
 	private boolean isSameRowAsPlayer(Point2D location) {
 		return location.getX() == this.playerLocation.getX();
 	}
@@ -354,10 +355,6 @@ public class Model {
 	 * @param location
 	 * @return
 	 */
-	private boolean isSameRowAsPlayer(Point2D location) {
-		return location.getX() == this.playerLocation.getX();
-	}
-
 	private Point2D moveTowardsPlayerInRow(Point2D location) {
 		if (location.getY() > this.playerLocation.getY()) {
 			return changeVelocity(Direction.LEFT);
