@@ -121,11 +121,11 @@ public class Controller implements EventHandler<KeyEvent> {
 	 */
 	private void checkGameOver() {
 		if (model.hasLostGame()) {
-			setGameOverLabel("Perdiste", "red");
+			setGameOverLabel("Perdiste", "red;");
 			pause();
 		}
 		if (model.hasWonGame()) {
-			setGameOverLabel("¡Ganaste!", "green");
+			setGameOverLabel("¡Ganaste!", "green;");
 			pause();
 		}
 	}
@@ -184,7 +184,7 @@ public class Controller implements EventHandler<KeyEvent> {
 	public void setGameOverLabel(String text, String color) {
 		this.gameOverLabel.setText(String.format(text));
 		if (color != "") {
-			this.gameOverLabel.setStyle(gameOverStyle + color + ";");
+			this.gameOverLabel.setStyle(gameOverStyle + color);
 		}
 	}
 }
