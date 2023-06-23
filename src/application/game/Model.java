@@ -304,6 +304,12 @@ public class Model {
 			return changeVelocity(Direction.DOWN);
 		}
 	}
+	
+	/**
+	 * 
+	 * @param location
+	 * @return
+	 */
 
 	/**
 	 * 
@@ -510,7 +516,7 @@ public class Model {
 	/**
 	 * Obtiene valor de la celda
 	 * 
-	 * @param row    Fila de la celda
+	 * @param row Fila de la celda
 	 * @param column Columna de la celda
 	 * @return Valor de la celda (row, column)
 	 */
@@ -557,11 +563,11 @@ public class Model {
 	public int getFishCount() {
 		return fishCount;
 	}
-
+	
 	/**
-	 * Obtiene número de filas del escenario
+	 * Obtiene número de filas del escenario 
 	 * 
-	 * @return Número de filas del escenario
+	 * @return Número de filas del escenario 
 	 */
 	public int getRowCount() {
 		return this.rowCount;
@@ -682,9 +688,9 @@ public class Model {
 	}
 
 	/**
-	 * Obtiene número de columnas del escenario
+	 * Obtiene número de columnas del escenario 
 	 * 
-	 * @param columnCount Número de columnas del escenario
+	 * @param columnCount Número de columnas del escenario 
 	 */
 	public void setColumnCount(int columnCount) {
 		this.columnCount = columnCount;
