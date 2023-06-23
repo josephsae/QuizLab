@@ -9,10 +9,10 @@ import javafx.application.Platform;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import application.levels.Level;
+
 public class Controller implements EventHandler<KeyEvent> {
 	final private static double FRAMES_PER_SECOND = 5.0;
-
-	private static final String[] levelFiles = { "src/levels/level_1.txt" };
 
 	private String gameOverStyle = "-fx-font-size: 250%; -fx-font-family: 'Iceland'; -fx-text-fill: ";
 	@FXML
@@ -162,8 +162,8 @@ public class Controller implements EventHandler<KeyEvent> {
 	 * @param x Número del arhivo que se quiere acceder
 	 * @return Archivo del nivel
 	 */
-	public static String getLevelFile(int x) {
-		return levelFiles[x];
+	public static char[][] getLevelData(int x) {
+		return Level.LEVELS[x];
 	}
 
 	/**
@@ -178,7 +178,7 @@ public class Controller implements EventHandler<KeyEvent> {
 	/**
 	 * Establece el texto y estilo para mostrar en al finalizar el juego
 	 * 
-	 * @param text Texto del label
+	 * @param text  Texto del label
 	 * @param color Color del label
 	 */
 	public void setGameOverLabel(String text, String color) {

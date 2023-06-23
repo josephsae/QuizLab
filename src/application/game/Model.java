@@ -2,7 +2,6 @@ package application.game;
 
 import javafx.geometry.Point2D;
 import javafx.fxml.FXML;
-import java.io.*;
 
 import java.util.*;
 
@@ -49,105 +48,71 @@ public class Model {
 	}
 
 	/**
-	 * Configura la cuadrícula según el archivo de texto, coloca el personaje y los
+	 * Configura la cuadrícula según la matriz del nivel, coloca el personaje y los
 	 * enemigos en sus ubicaciones iniciales. "W" indica un muro, "E" indica un
-	 * cuadrado vacío, "F" indica un pescado, "1" o "2" indica el punto de inicio
-	 * de los enemigos "P" indica el punto de inicio del personaje
+	 * cuadrado vacío, "F" indica un pescado, "1" o "2" indica el punto de inicio de
+	 * los enemigos "P" indica el punto de inicio del personaje
 	 *
-	 * @param fileName Nombre del archivo de texto que tiene la configuración del
-	 *                 escenario
+	 * @param level Matriz que tiene la configuración del escenario
+	 *              
 	 */
-	public void initializeLevel(String fileName) {
-		File file = new File(fileName);
-		try {
-			rowCount = 0;
-			columnCount = 0;
-			grid = null;
+	public void initializeLevel(char[][] level) {
+		this.rowCount = level.length;
+		this.columnCount = level[0].length;
 
-			calculateGridSize(file);
-			createGrid(file);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return;
-		}
+		createGrid(level);
 
 		currentDirection = Direction.NONE;
 		lastDirection = Direction.NONE;
 	}
 
 	/**
-	 * Calcular la cuadrícula que define el escenario
-	 * 
-	 * @param file Archivo de texto
-	 * @throws FileNotFoundException En caso de que no existe arhivo de texto para leer
-	 */
-	private void calculateGridSize(File file) throws FileNotFoundException {
-		try (Scanner scanner = new Scanner(file)) {
-			while (scanner.hasNextLine()) {
-				String line = scanner.nextLine();
-				try (Scanner lineScanner = new Scanner(line)) {
-					while (lineScanner.hasNext()) {
-						lineScanner.next();
-						this.columnCount++;
-					}
-				}
-				this.rowCount++;
-			}
-		}
-		this.columnCount = columnCount / rowCount;
-	}
-
-	/**
 	 * Crea la cuadrícula que define el escenario
 	 * 
-	 * @param file Archivo de texto
-	 * @throws FileNotFoundException En caso de que no existe arhivo de texto para leer
+	 * @param level Matriz que tiene la configuración del escenario
+	 *                               
 	 */
-	private void createGrid(File file) throws FileNotFoundException {
+	private void createGrid(char[][] level) {
 		this.grid = new CellValue[this.rowCount][this.columnCount];
-		try (Scanner scanner = new Scanner(file)) {
-			for (int row = 0; row < this.rowCount; row++) {
-				String line = scanner.nextLine();
-				try (Scanner lineScanner = new Scanner(line)) {
-					for (int column = 0; column < this.columnCount && lineScanner.hasNext(); column++) {
-						String value = lineScanner.next();
-						CellValue cellValue = parseCellValue(value, row, column);
-						this.grid[row][column] = cellValue;
-					}
-				}
+		for (int row = 0; row < this.rowCount; row++) {
+			for (int column = 0; column < this.columnCount; column++) {
+				char value = level[row][column];
+				CellValue cellValue = parseCellValue(value, row, column);
+				this.grid[row][column] = cellValue;
+
 			}
 		}
 	}
 
 	/**
-	 * Según el valor de la cuadrícula se establece el tipo de celda que se mostrará  
+	 * Según el valor de la cuadrícula se establece el tipo de celda que se mostrará
 	 * 
-	 * @param value Valor de la cuadrícula
-	 * @param row Fila de la cuadrícula
+	 * @param value  Valor de la cuadrícula
+	 * @param row    Fila de la cuadrícula
 	 * @param column Columna de la cuadrícula
 	 * @return Valor que tomará la cuadrícula
 	 */
-	private CellValue parseCellValue(String value, int row, int column) {
+	private CellValue parseCellValue(char value, int row, int column) {
 		CellValue cellValue;
 		switch (value) {
-		case "W":
+		case 'W':
 			cellValue = CellValue.WALL;
 			break;
-		case "F":
+		case 'F':
 			cellValue = CellValue.FISH;
 			this.fishCount++;
 			break;
-		case "1":
+		case '1':
 			cellValue = CellValue.ENEMY1HOME;
 			this.enemy1Location = new Point2D(row, column);
 			this.enemy1Velocity = new Point2D(-1, 0);
 			break;
-		case "2":
+		case '2':
 			cellValue = CellValue.ENEMY2HOME;
 			this.enemy2Location = new Point2D(row, column);
 			this.enemy2Velocity = new Point2D(-1, 0);
 			break;
-		case "P":
+		case 'P':
 			cellValue = CellValue.PLAYERHOME;
 			this.playerLocation = new Point2D(row, column);
 			this.playerVelocity = new Point2D(0, 0);
@@ -170,7 +135,7 @@ public class Model {
 		this.columnCount = 0;
 		this.score = 0;
 		this.level = 1;
-		this.initializeLevel(Controller.getLevelFile(0));
+		this.initializeLevel(Controller.getLevelData(0));
 	}
 
 	/**
@@ -183,7 +148,7 @@ public class Model {
 		this.columnCount = 0;
 		this.hasWon = false;
 		try {
-			initializeLevel(Controller.getLevelFile(level - 1));
+			initializeLevel(Controller.getLevelData(level - 1));
 		} catch (ArrayIndexOutOfBoundsException e) {
 			finishGame();
 		}
@@ -326,7 +291,7 @@ public class Model {
 	private boolean isSameColumnAsPlayer(Point2D location) {
 		return location.getY() == this.playerLocation.getY();
 	}
-	
+
 	/**
 	 * 
 	 * @param location
@@ -339,7 +304,7 @@ public class Model {
 			return changeVelocity(Direction.DOWN);
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param location
@@ -545,7 +510,7 @@ public class Model {
 	/**
 	 * Obtiene valor de la celda
 	 * 
-	 * @param row Fila de la celda
+	 * @param row    Fila de la celda
 	 * @param column Columna de la celda
 	 * @return Valor de la celda (row, column)
 	 */
@@ -561,7 +526,7 @@ public class Model {
 	public Direction getCurrentDirection() {
 		return currentDirection;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -569,7 +534,7 @@ public class Model {
 	public static Direction getLastDirection() {
 		return lastDirection;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -577,7 +542,7 @@ public class Model {
 	public int getScore() {
 		return score;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -592,20 +557,20 @@ public class Model {
 	public int getFishCount() {
 		return fishCount;
 	}
-	
+
 	/**
-	 * Obtiene número de filas del escenario 
+	 * Obtiene número de filas del escenario
 	 * 
-	 * @return Número de filas del escenario 
+	 * @return Número de filas del escenario
 	 */
 	public int getRowCount() {
 		return this.rowCount;
 	}
 
 	/**
-	 * Obtiene número de columnas del escenario 
+	 * Obtiene número de columnas del escenario
 	 * 
-	 * @return Número de columnas del escenario 
+	 * @return Número de columnas del escenario
 	 */
 	public int getColumnCount() {
 		return this.columnCount;
@@ -626,7 +591,7 @@ public class Model {
 	public Point2D getEnemy1Location() {
 		return enemy1Location;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -691,7 +656,7 @@ public class Model {
 	public void addToScore(int points) {
 		this.score += points;
 	}
-	
+
 	/**
 	 * 
 	 * @param level
@@ -708,18 +673,18 @@ public class Model {
 	}
 
 	/**
-	 * Establece número de filas del escenario 
+	 * Establece número de filas del escenario
 	 * 
-	 * @param rowCount Número de filas del escenario 
+	 * @param rowCount Número de filas del escenario
 	 */
 	public void setRowCount(int rowCount) {
 		this.rowCount = rowCount;
 	}
 
 	/**
-	 * Obtiene número de columnas del escenario 
+	 * Obtiene número de columnas del escenario
 	 * 
-	 * @param columnCount Número de columnas del escenario 
+	 * @param columnCount Número de columnas del escenario
 	 */
 	public void setColumnCount(int columnCount) {
 		this.columnCount = columnCount;
