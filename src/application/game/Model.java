@@ -304,12 +304,6 @@ public class Model {
 			return changeVelocity(Direction.DOWN);
 		}
 	}
-	
-	/**
-	 * 
-	 * @param location
-	 * @return
-	 */
 
 	/**
 	 * 
