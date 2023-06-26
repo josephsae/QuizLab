@@ -1,0 +1,56 @@
+@options
+@packages
+@argfile
+--class-path
+'C:/Users/Joseph/.m2/repository/org/openjfx/javafx-controls/13/javafx-controls-13.jar;C:/Users/Joseph/.m2/repository/org/openjfx/javafx-graphics/13/javafx-graphics-13.jar;C:/Users/Joseph/.m2/repository/org/openjfx/javafx-base/13/javafx-base-13.jar;C:/Users/Joseph/.m2/repository/org/openjfx/javafx-fxml/13/javafx-fxml-13.jar'
+--module-path
+'C:/Users/Joseph/.m2/repository/org/openjfx/javafx-graphics/13/javafx-graphics-13-win.jar;C:/Users/Joseph/.m2/repository/org/openjfx/javafx-base/13/javafx-base-13-win.jar;C:/Users/Joseph/eclipse-workspace/quizlab-game/target/quizlab-game-0.0.1-SNAPSHOT.jar;C:/Users/Joseph/.m2/repository/org/openjfx/javafx-fxml/13/javafx-fxml-13-win.jar;C:/Users/Joseph/.m2/repository/org/openjfx/javafx-controls/13/javafx-controls-13-win.jar'
+--patch-module
+org.quizlab.quizlab_game='C:/Users/Joseph/eclipse-workspace/quizlab-game/src/main/java;C:/Users/Joseph/eclipse-workspace/quizlab-game/target/generated-sources/annotations'
+-encoding
+'UTF-8'
+-protected
+-source
+'11'
+--module-source-path
+'C:/Users/Joseph/eclipse-workspace/quizlab-game/target/apidocs/src'
+-author
+-bottom
+'Copyright &#169; 2023. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Users/Joseph/eclipse-workspace/quizlab-game/target/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'quizlab-game 0.0.1-SNAPSHOT API'
+-linkoffline
+'https://docs.oracle.com/en/java/javase/11/docs/api' 'C:/Users/Joseph/eclipse-workspace/quizlab-game/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'quizlab-game 0.0.1-SNAPSHOT API'
+org.quizlab.quizlab_game
+org.quizlab.quizlab_game.game
+org.quizlab.quizlab_game.levels
+org.quizlab.quizlab_game.menu
+'C:/Users/Joseph/eclipse-workspace/quizlab-game/src/main/java/module-info.java'
+C:\Users\Joseph\eclipse-workspace\quizlab-game\target\apidocs\allclasses-index.html = 1687804109510
+C:\Users\Joseph\eclipse-workspace\quizlab-game\target\apidocs\allpackages-index.html = 1687804109516
+C:\Users\Joseph\eclipse-workspace\quizlab-game\target\apidocs\constant-values.html = 1687804109366
+C:\Users\Joseph\eclipse-workspace\quizlab-game\target\apidocs\copy.svg = 1687804109595
+C:\Users\Joseph\eclipse-workspace\quizlab-game\target\apidocs\element-list = 1687804109247
+C:\Users\Joseph\eclipse-workspace\quizlab-game\target\apidocs\help-doc.html = 1687804109580
+C:\Users\Joseph\eclipse-workspace\quizlab-game\target\apidocs\index-all.html = 1687804109565
+C:\Users\Joseph\eclipse-workspace\quizlab-game\target\apidocs\index.html = 1687804109570
+C:\Users\Joseph\eclipse-workspace\quizlab-game\target\apidocs\jquery-ui.overrides.css = 1687804109642
+C:\Users\Joseph\eclipse-workspace\quizlab-game\target\apidocs\member-search-index.js = 1687804109524
+C:\Users\Joseph\eclipse-workspace\quizlab-game\target\apidocs\module-search-index.js = 1687804109518
+C:\Users\Joseph\eclipse-workspace\quizlab-game\target\apidocs\overview-tree.html = 1687804109476
+C:\Users\Joseph\eclipse-workspace\quizlab-game\target\apidocs\package-search-index.js = 1687804109520
+C:\Users\Joseph\eclipse-workspace\quizlab-game\target\apidocs\script.js = 1687804109587
+C:\Users\Joseph\eclipse-workspace\quizlab-game\target\apidocs\search.js = 1687804109599
+C:\Users\Joseph\eclipse-workspace\quizlab-game\target\apidocs\stylesheet.css = 1687804109583
+C:\Users\Joseph\eclipse-workspace\quizlab-game\target\apidocs\tag-search-index.js = 1687804109527
+C:\Users\Joseph\eclipse-workspace\quizlab-game\target\apidocs\type-search-index.js = 1687804109521
