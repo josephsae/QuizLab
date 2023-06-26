@@ -288,15 +288,6 @@ public class Model {
 	 * @param location
 	 * @return
 	 */
-	private boolean isSameColumnAsPlayer(Point2D location) {
-		return location.getY() == this.playerLocation.getY();
-	}
-
-	/**
-	 * 
-	 * @param location
-	 * @return
-	 */
 	private Point2D moveTowardsPlayerInColumn(Point2D location) {
 		if (location.getX() > this.playerLocation.getX()) {
 			return changeVelocity(Direction.UP);
@@ -305,12 +296,21 @@ public class Model {
 		}
 	}
 
+		/**
+	 * 
+	 * @param location
+	 * @return
+	 */
+	private boolean isSameColumnAsPlayer(Point2D location) {
+		return location.getY() == this.playerLocation.getY();
+	}
+	
+
 	/**
 	 * 
 	 * @param location
 	 * @return
 	 */
-
 	private boolean isSameRowAsPlayer(Point2D location) {
 		return location.getX() == this.playerLocation.getX();
 	}
@@ -527,7 +527,6 @@ public class Model {
 	public Direction getCurrentDirection() {
 		return currentDirection;
 	}
-
 	/**
 	 * 
 	 * @return
@@ -535,7 +534,6 @@ public class Model {
 	public static Direction getLastDirection() {
 		return lastDirection;
 	}
-
 	/**
 	 * 
 	 * @return
@@ -543,7 +541,6 @@ public class Model {
 	public int getScore() {
 		return score;
 	}
-
 	/**
 	 * 
 	 * @return
@@ -592,7 +589,6 @@ public class Model {
 	public Point2D getEnemy1Location() {
 		return enemy1Location;
 	}
-
 	/**
 	 * 
 	 * @return
@@ -657,7 +653,6 @@ public class Model {
 	public void addToScore(int points) {
 		this.score += points;
 	}
-
 	/**
 	 * 
 	 * @param level
