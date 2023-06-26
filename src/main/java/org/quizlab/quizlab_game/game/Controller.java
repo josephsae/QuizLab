@@ -178,7 +178,7 @@ public class Controller implements EventHandler<KeyEvent> {
 	/**
 	 * Establece el texto y estilo para mostrar en al finalizar el juego
 	 * 
-	 * @param text Texto del label
+	 * @param text  Texto del label
 	 * @param color Color del label
 	 */
 	public void setGameOverLabel(String text, String color) {

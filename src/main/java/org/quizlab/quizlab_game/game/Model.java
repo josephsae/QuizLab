@@ -54,7 +54,7 @@ public class Model {
 	 * los enemigos "P" indica el punto de inicio del personaje
 	 *
 	 * @param level Matriz que tiene la configuración del escenario
-	 *              
+	 * 
 	 */
 	public void initializeLevel(char[][] level) {
 		this.rowCount = level.length;
@@ -70,7 +70,7 @@ public class Model {
 	 * Crea la cuadrícula que define el escenario
 	 * 
 	 * @param level Matriz que tiene la configuración del escenario
-	 *                               
+	 * 
 	 */
 	private void createGrid(char[][] level) {
 		this.grid = new CellValue[this.rowCount][this.columnCount];
@@ -95,31 +95,31 @@ public class Model {
 	private CellValue parseCellValue(char value, int row, int column) {
 		CellValue cellValue;
 		switch (value) {
-		case 'W':
-			cellValue = CellValue.WALL;
-			break;
-		case 'F':
-			cellValue = CellValue.FISH;
-			this.fishCount++;
-			break;
-		case '1':
-			cellValue = CellValue.ENEMY1HOME;
-			this.enemy1Location = new Point2D(row, column);
-			this.enemy1Velocity = new Point2D(-1, 0);
-			break;
-		case '2':
-			cellValue = CellValue.ENEMY2HOME;
-			this.enemy2Location = new Point2D(row, column);
-			this.enemy2Velocity = new Point2D(-1, 0);
-			break;
-		case 'P':
-			cellValue = CellValue.PLAYERHOME;
-			this.playerLocation = new Point2D(row, column);
-			this.playerVelocity = new Point2D(0, 0);
-			break;
-		default:
-			cellValue = CellValue.EMPTY;
-			break;
+			case 'W':
+				cellValue = CellValue.WALL;
+				break;
+			case 'F':
+				cellValue = CellValue.FISH;
+				this.fishCount++;
+				break;
+			case '1':
+				cellValue = CellValue.ENEMY1HOME;
+				this.enemy1Location = new Point2D(row, column);
+				this.enemy1Velocity = new Point2D(-1, 0);
+				break;
+			case '2':
+				cellValue = CellValue.ENEMY2HOME;
+				this.enemy2Location = new Point2D(row, column);
+				this.enemy2Velocity = new Point2D(-1, 0);
+				break;
+			case 'P':
+				cellValue = CellValue.PLAYERHOME;
+				this.playerLocation = new Point2D(row, column);
+				this.playerVelocity = new Point2D(0, 0);
+				break;
+			default:
+				cellValue = CellValue.EMPTY;
+				break;
 		}
 		return cellValue;
 	}
@@ -296,7 +296,7 @@ public class Model {
 		}
 	}
 
-		/**
+	/**
 	 * 
 	 * @param location
 	 * @return
@@ -304,7 +304,6 @@ public class Model {
 	private boolean isSameColumnAsPlayer(Point2D location) {
 		return location.getY() == this.playerLocation.getY();
 	}
-	
 
 	/**
 	 * 
@@ -363,14 +362,14 @@ public class Model {
 	 */
 	public Direction intToDirection(int x) {
 		switch (x) {
-		case 0:
-			return Direction.LEFT;
-		case 1:
-			return Direction.RIGHT;
-		case 2:
-			return Direction.UP;
-		default:
-			return Direction.DOWN;
+			case 0:
+				return Direction.LEFT;
+			case 1:
+				return Direction.RIGHT;
+			case 2:
+				return Direction.UP;
+			default:
+				return Direction.DOWN;
 		}
 	}
 
@@ -459,16 +458,16 @@ public class Model {
 	 */
 	public Point2D changeVelocity(Direction direction) {
 		switch (direction) {
-		case LEFT:
-			return new Point2D(0, -1);
-		case RIGHT:
-			return new Point2D(0, 1);
-		case UP:
-			return new Point2D(-1, 0);
-		case DOWN:
-			return new Point2D(1, 0);
-		default:
-			return new Point2D(0, 0);
+			case LEFT:
+				return new Point2D(0, -1);
+			case RIGHT:
+				return new Point2D(0, 1);
+			case UP:
+				return new Point2D(-1, 0);
+			case DOWN:
+				return new Point2D(1, 0);
+			default:
+				return new Point2D(0, 0);
 		}
 	}
 
@@ -511,7 +510,7 @@ public class Model {
 	/**
 	 * Obtiene valor de la celda
 	 * 
-	 * @param row Fila de la celda
+	 * @param row    Fila de la celda
 	 * @param column Columna de la celda
 	 * @return Valor de la celda (row, column)
 	 */
@@ -527,6 +526,7 @@ public class Model {
 	public Direction getCurrentDirection() {
 		return currentDirection;
 	}
+
 	/**
 	 * 
 	 * @return
@@ -534,6 +534,7 @@ public class Model {
 	public static Direction getLastDirection() {
 		return lastDirection;
 	}
+
 	/**
 	 * 
 	 * @return
@@ -541,6 +542,7 @@ public class Model {
 	public int getScore() {
 		return score;
 	}
+
 	/**
 	 * 
 	 * @return
@@ -555,11 +557,11 @@ public class Model {
 	public int getFishCount() {
 		return fishCount;
 	}
-	
+
 	/**
-	 * Obtiene número de filas del escenario 
+	 * Obtiene número de filas del escenario
 	 * 
-	 * @return Número de filas del escenario 
+	 * @return Número de filas del escenario
 	 */
 	public int getRowCount() {
 		return this.rowCount;
@@ -589,6 +591,7 @@ public class Model {
 	public Point2D getEnemy1Location() {
 		return enemy1Location;
 	}
+
 	/**
 	 * 
 	 * @return
@@ -653,6 +656,7 @@ public class Model {
 	public void addToScore(int points) {
 		this.score += points;
 	}
+
 	/**
 	 * 
 	 * @param level
@@ -678,9 +682,9 @@ public class Model {
 	}
 
 	/**
-	 * Obtiene número de columnas del escenario 
+	 * Obtiene número de columnas del escenario
 	 * 
-	 * @param columnCount Número de columnas del escenario 
+	 * @param columnCount Número de columnas del escenario
 	 */
 	public void setColumnCount(int columnCount) {
 		this.columnCount = columnCount;
