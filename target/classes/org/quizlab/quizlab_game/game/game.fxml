@@ -1,6 +1,6 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.control.Label?>
-<?import org.quizlab.quizlab_game.game.View?>
+<?import org.quizlab.quizlab_game..game.View?>
 <?import javafx.scene.effect.Glow?>
 
 <BorderPane fx:controller="org.quizlab.quizlab_game.game.Controller"
