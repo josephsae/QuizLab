@@ -1,1 +1,0 @@
-moduleSearchIndex = [{"l":"org.quizlab.quizlab_game"}];updateSearchResults();
