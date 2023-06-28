@@ -11,10 +11,20 @@ public class Model {
 	@FXML
 	private int columnCount;
 
+	/**
+	 * 
+	 * Direcciones que puede utilizar el jugador
+	 *
+	 */
 	public enum Direction {
 		UP, DOWN, LEFT, RIGHT, NONE
 	};
 
+	/**
+	 * 
+	 * Representación de cada celda dentro del juego
+	 *
+	 */
 	public enum CellValue {
 		EMPTY, FISH, WALL, ENEMY1HOME, ENEMY2HOME, PLAYERHOME
 	};
@@ -181,8 +191,12 @@ public class Model {
 
 	/**
 	 * 
-	 * @param potentialPlayerVelocity
-	 * @param potentialPlayerLocation
+	 * Controla el movimiento del jugador cuando va en la misma dirección que antes
+	 * 
+	 * @param potentialPlayerVelocity Velocidad potencial a la que se quiere mover
+	 *                                el usuario
+	 * @param potentialPlayerLocation Dirección potencial a la que se quiere mover
+	 *                                el usuario
 	 */
 	private void handleSameDirectionMovement(Point2D potentialPlayerVelocity, Point2D potentialPlayerLocation) {
 		if (gridContainsWall(potentialPlayerLocation)) {
@@ -194,9 +208,14 @@ public class Model {
 
 	/**
 	 * 
-	 * @param direction
-	 * @param potentialPlayerVelocity
-	 * @param potentialPlayerLocation
+	 * Controla el movimiento del jugador cuando va en una dirección diferente a la
+	 * de antes
+	 * 
+	 * @param direction               La dirección ingresada
+	 * @param potentialPlayerVelocity Velocidad potencial a la que se quiere mover
+	 *                                el usuario
+	 * @param potentialPlayerLocation Dirección potencial a la que se quiere mover
+	 *                                el usuario
 	 */
 	private void handleDifferentDirectionMovement(Direction direction, Point2D potentialPlayerVelocity,
 			Point2D potentialPlayerLocation) {
@@ -210,7 +229,10 @@ public class Model {
 
 	/**
 	 * 
-	 * @param direction
+	 * Controla la colisión con un muro cuando va en una dirección diferente a la de
+	 * antes
+	 * 
+	 * @param direction La dirección ingresada
 	 */
 	private void handleWallCollisionInDifferentDirection(Direction direction) {
 		Point2D potentialPlayerVelocity = changeVelocity(lastDirection);
@@ -225,7 +247,9 @@ public class Model {
 
 	/**
 	 * 
-	 * @param location
+	 * Determina si la ubicación es un muro
+	 * 
+	 * @param location Ubicación a validar
 	 * @return
 	 */
 	private boolean gridContainsWall(Point2D location) {
@@ -233,7 +257,7 @@ public class Model {
 	}
 
 	/**
-	 * 
+	 * Detiene el movimiento del jugador
 	 */
 	private void stopPlayerMovement() {
 		this.playerVelocity = changeVelocity(Direction.NONE);
@@ -241,9 +265,11 @@ public class Model {
 	}
 
 	/**
+	 * Mueve al jugador a la velocidad y ubicación indicada
 	 * 
-	 * @param velocity
-	 * @param location
+	 * 
+	 * @param velocity Punto de dos dimensiones que representa la velocidad
+	 * @param location Punto de dos dimensiones que representa la ubicación
 	 */
 	private void movePlayerToLocation(Point2D velocity, Point2D location) {
 		this.playerVelocity = velocity;
@@ -285,20 +311,9 @@ public class Model {
 
 	/**
 	 * 
-	 * @param location
-	 * @return
-	 */
-	private Point2D moveTowardsPlayerInColumn(Point2D location) {
-		if (location.getX() > this.playerLocation.getX()) {
-			return changeVelocity(Direction.UP);
-		} else {
-			return changeVelocity(Direction.DOWN);
-		}
-	}
-
-	/**
+	 * Ejecuta un movimiento a nivel del eje Y
 	 * 
-	 * @param location
+	 * @param location Ubicación vectorial
 	 * @return
 	 */
 	private boolean isSameColumnAsPlayer(Point2D location) {
@@ -307,7 +322,20 @@ public class Model {
 
 	/**
 	 * 
-	 * @param location
+	 * Valida si la ubicación es la misma que la del usuario en el eje Y
+	 * 
+	 * @param location Ubicación vectorial
+	 * @return
+	 */
+	private boolean isSameColumnAsPlayer(Point2D location) {
+		return location.getY() == this.playerLocation.getY();
+	}
+
+	/**
+	 * 
+	 * Valida si la ubicación es la misma que la del usuario en el eje X
+	 * 
+	 * @param location Ubicación vectorial
 	 * @return
 	 */
 
@@ -317,7 +345,9 @@ public class Model {
 
 	/**
 	 * 
-	 * @param location
+	 * Valida si la ubicación es la misma que la del usuario en el eje X
+	 * 
+	 * @param location Ubicación vectorial
 	 * @return
 	 */
 	private Point2D moveTowardsPlayerInRow(Point2D location) {
@@ -330,8 +360,8 @@ public class Model {
 
 	/**
 	 * 
-	 * @param velocity
-	 * @param location
+	 * @param velocity la velocidad actual del enemigo
+	 * @param location la ubicación actual del enemigo
 	 * @return
 	 */
 	private Point2D[] moveRandomlyUntilWallCollision(Point2D velocity, Point2D location) {
@@ -347,7 +377,9 @@ public class Model {
 
 	/**
 	 * 
-	 * @return
+	 * Genera un movimiento de manera aleatoria
+	 * 
+	 * @return Dirección de movimiento
 	 */
 	private Direction getRandomDirection() {
 		Random generator = new Random();
@@ -389,14 +421,14 @@ public class Model {
 	}
 
 	/**
-	 * 
+	 * Envía al enemigo 1 a su ubicación de origen
 	 */
 	public void sendEnemy1Home() {
 		sendEnemyHome(CellValue.ENEMY1HOME, enemy1Location, enemy1Velocity);
 	}
 
 	/**
-	 * 
+	 * Envía al enemigo 2 a su ubicación de origen
 	 */
 	public void sendEnemy2Home() {
 		sendEnemyHome(CellValue.ENEMY2HOME, enemy2Location, enemy2Velocity);
@@ -419,7 +451,7 @@ public class Model {
 	}
 
 	/**
-	 * 
+	 * Actualiza la cuenta de los pescados
 	 */
 	private void updateFishCount() {
 		CellValue playerLocationCellValue = grid[(int) playerLocation.getX()][(int) playerLocation.getY()];
@@ -431,7 +463,7 @@ public class Model {
 	}
 
 	/**
-	 * 
+	 * Valida si el jugador colisionó con el enemigo
 	 */
 	private void checkEnemyCollision() {
 		if (playerLocation.equals(enemy1Location) || playerLocation.equals(enemy2Location)) {
@@ -441,7 +473,7 @@ public class Model {
 	}
 
 	/**
-	 * 
+	 * Valida si el nivel está completa
 	 */
 	private void checkLevelCompletion() {
 		if (isLevelComplete()) {
@@ -522,6 +554,8 @@ public class Model {
 
 	/**
 	 * 
+	 * Obtiene la dirección actual
+	 * 
 	 * @return
 	 */
 	public Direction getCurrentDirection() {
@@ -529,6 +563,8 @@ public class Model {
 	}
 
 	/**
+	 * 
+	 * Obtiene la última dirección
 	 * 
 	 * @return
 	 */
@@ -538,6 +574,8 @@ public class Model {
 
 	/**
 	 * 
+	 * Obtien el puntaje del juego
+	 * 
 	 * @return
 	 */
 	public int getScore() {
@@ -546,6 +584,8 @@ public class Model {
 
 	/**
 	 * 
+	 * Obtien el nivel del juego
+	 * 
 	 * @return
 	 */
 	public int getLevel() {
@@ -553,13 +593,17 @@ public class Model {
 	}
 
 	/**
-	 * @return Obtiene el número de manzanas restantes
+	 * 
+	 * Obtiene el número de manzanas restantes
+	 * 
+	 * @return
 	 */
 	public int getFishCount() {
 		return fishCount;
 	}
 
 	/**
+	 * 
 	 * Obtiene número de filas del escenario
 	 * 
 	 * @return Número de filas del escenario
@@ -569,6 +613,7 @@ public class Model {
 	}
 
 	/**
+	 * 
 	 * Obtiene número de columnas del escenario
 	 * 
 	 * @return Número de columnas del escenario
