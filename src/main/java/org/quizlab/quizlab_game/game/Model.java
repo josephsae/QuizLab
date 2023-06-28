@@ -5,6 +5,11 @@ import javafx.fxml.FXML;
 
 import java.util.*;
 
+/**
+ * 
+ * Modelo del juego
+ *
+ */
 public class Model {
 	@FXML
 	private int rowCount;
