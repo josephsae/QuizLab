@@ -105,31 +105,31 @@ public class Model {
 	private CellValue parseCellValue(char value, int row, int column) {
 		CellValue cellValue;
 		switch (value) {
-		case 'W':
-			cellValue = CellValue.WALL;
-			break;
-		case 'F':
-			cellValue = CellValue.FISH;
-			this.fishCount++;
-			break;
-		case '1':
-			cellValue = CellValue.ENEMY1HOME;
-			this.enemy1Location = new Point2D(row, column);
-			this.enemy1Velocity = new Point2D(-1, 0);
-			break;
-		case '2':
-			cellValue = CellValue.ENEMY2HOME;
-			this.enemy2Location = new Point2D(row, column);
-			this.enemy2Velocity = new Point2D(-1, 0);
-			break;
-		case 'P':
-			cellValue = CellValue.PLAYERHOME;
-			this.playerLocation = new Point2D(row, column);
-			this.playerVelocity = new Point2D(0, 0);
-			break;
-		default:
-			cellValue = CellValue.EMPTY;
-			break;
+			case 'W':
+				cellValue = CellValue.WALL;
+				break;
+			case 'F':
+				cellValue = CellValue.FISH;
+				this.fishCount++;
+				break;
+			case '1':
+				cellValue = CellValue.ENEMY1HOME;
+				this.enemy1Location = new Point2D(row, column);
+				this.enemy1Velocity = new Point2D(-1, 0);
+				break;
+			case '2':
+				cellValue = CellValue.ENEMY2HOME;
+				this.enemy2Location = new Point2D(row, column);
+				this.enemy2Velocity = new Point2D(-1, 0);
+				break;
+			case 'P':
+				cellValue = CellValue.PLAYERHOME;
+				this.playerLocation = new Point2D(row, column);
+				this.playerVelocity = new Point2D(0, 0);
+				break;
+			default:
+				cellValue = CellValue.EMPTY;
+				break;
 		}
 		return cellValue;
 	}
@@ -316,12 +316,8 @@ public class Model {
 	 * @param location Ubicación vectorial
 	 * @return
 	 */
-	private Point2D moveTowardsPlayerInColumn(Point2D location) {
-		if (location.getX() > this.playerLocation.getX()) {
-			return changeVelocity(Direction.UP);
-		} else {
-			return changeVelocity(Direction.DOWN);
-		}
+	private boolean isSameColumnAsPlayer(Point2D location) {
+		return location.getY() == this.playerLocation.getY();
 	}
 
 	/**
@@ -399,14 +395,14 @@ public class Model {
 	 */
 	public Direction intToDirection(int x) {
 		switch (x) {
-		case 0:
-			return Direction.LEFT;
-		case 1:
-			return Direction.RIGHT;
-		case 2:
-			return Direction.UP;
-		default:
-			return Direction.DOWN;
+			case 0:
+				return Direction.LEFT;
+			case 1:
+				return Direction.RIGHT;
+			case 2:
+				return Direction.UP;
+			default:
+				return Direction.DOWN;
 		}
 	}
 
@@ -495,16 +491,16 @@ public class Model {
 	 */
 	public Point2D changeVelocity(Direction direction) {
 		switch (direction) {
-		case LEFT:
-			return new Point2D(0, -1);
-		case RIGHT:
-			return new Point2D(0, 1);
-		case UP:
-			return new Point2D(-1, 0);
-		case DOWN:
-			return new Point2D(1, 0);
-		default:
-			return new Point2D(0, 0);
+			case LEFT:
+				return new Point2D(0, -1);
+			case RIGHT:
+				return new Point2D(0, 1);
+			case UP:
+				return new Point2D(-1, 0);
+			case DOWN:
+				return new Point2D(1, 0);
+			default:
+				return new Point2D(0, 0);
 		}
 	}
 
@@ -600,7 +596,7 @@ public class Model {
 	 * 
 	 * Obtiene el número de manzanas restantes
 	 * 
-	 * @return 
+	 * @return
 	 */
 	public int getFishCount() {
 		return fishCount;

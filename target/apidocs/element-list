@@ -1,0 +1,5 @@
+module:org.quizlab.quizlab_game
+org.quizlab.quizlab_game
+org.quizlab.quizlab_game.game
+org.quizlab.quizlab_game.levels
+org.quizlab.quizlab_game.menu
