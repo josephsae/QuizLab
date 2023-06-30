@@ -329,12 +329,8 @@ public class Model {
 	 * @param location Ubicación vectorial
 	 * @return
 	 */
-	private Point2D moveTowardsPlayerInColumn(Point2D location) {
-		if (location.getX() > this.playerLocation.getX()) {
-			return changeVelocity(Direction.UP);
-		} else {
-			return changeVelocity(Direction.DOWN);
-		}
+	private boolean isSameColumnAsPlayer(Point2D location) {
+		return location.getY() == this.playerLocation.getY();
 	}
 
 	/**

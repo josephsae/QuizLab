@@ -4,7 +4,7 @@ import org.quizlab.quizlab_game.menu.Menu;
 import javafx.application.Application;
 import javafx.stage.Stage;
 /**
- * Clase principal de la aplicación
+ * Clase principal
  * 
  * @author
  * 		Luis Munevar 
@@ -33,7 +33,7 @@ public class Main extends Application {
 		}
 	}
 /**
- * llama al método launch para iniciar una aplicación independiente. 
+ * Llama al método launch para iniciar una aplicación independiente. 
  * 
  * @param args
  * @see Application#launch

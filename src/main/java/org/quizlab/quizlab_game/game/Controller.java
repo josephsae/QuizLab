@@ -21,6 +21,11 @@ import org.quizlab.quizlab_game.levels.Level;
 import org.quizlab.quizlab_game.question.Question;
 import org.quizlab.quizlab_game.question.RandomQuestionSelector;
 
+/**
+ * 
+ * Controlador del juego
+ *
+ */
 public class Controller implements EventHandler<KeyEvent> {
 	final private static double FRAMES_PER_SECOND = 5.0;
 

@@ -6,6 +6,11 @@ import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/**
+ * 
+ * Vista del juego
+ *
+ */
 public class View extends Group {
 	public final static double CELL_WIDTH = 30.0;
 

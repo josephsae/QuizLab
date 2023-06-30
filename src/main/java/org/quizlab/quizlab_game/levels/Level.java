@@ -1,5 +1,9 @@
 package org.quizlab.quizlab_game.levels;
 
+/**
+ * Define un objeto Level con toda la configuración
+ * 
+ */
 public class Level {
 	private static final char[][] LEVEL_1 = {
 			{ 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W' },
