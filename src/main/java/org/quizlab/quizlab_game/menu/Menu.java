@@ -14,6 +14,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -42,15 +44,14 @@ public class Menu extends Application {
 			primaryStage.setTitle("QuizLab");
 			Controller controller = loader.getController();
 			root.setOnKeyPressed(controller);
-	        primaryStage.setScene(new Scene(root, WIDTH, HEIGHT-20));
+			primaryStage.setScene(new Scene(root, WIDTH, HEIGHT - 20));
 			primaryStage.show();
 			root.requestFocus();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}), new Pair<String, Runnable>("Opciones de Juego", () -> {
-	}), new Pair<String, Runnable>("Creditos", () -> {
-	}), new Pair<String, Runnable>("Salir al escritorio", Platform::exit));
+	}), new Pair<String, Runnable>("Créditos", this::showCredits),
+			new Pair<String, Runnable>("Salir al escritorio", Platform::exit));
 
 	private Pane root = new Pane();
 	private VBox menuBox = new VBox(-5);
@@ -106,7 +107,7 @@ public class Menu extends Application {
 	 * @param y coordenada y
 	 */
 	private void addLine(double x, double y) {
-		line = new Line(x, y, x, y + 170);
+		line = new Line(x, y, x, y + 120);
 		line.setStrokeWidth(3);
 		line.setStroke(Color.WHITE);
 		line.setScaleY(0);
@@ -158,6 +159,15 @@ public class Menu extends Application {
 
 		root.getChildren().add(menuBox);
 	}
+	
+	private void showCredits() {
+	    Alert alert = new Alert(AlertType.INFORMATION);
+	    alert.setTitle("Créditos");
+	    alert.setHeaderText(null);
+	    alert.setContentText("Desarrollado por:\n\nLuis Munevar \nJoseymi Pajaro \nJoseph Caicedo");
+	    alert.showAndWait();
+	}
+	
 
 	/**
 	 * {@inheritDoc}
@@ -175,7 +185,7 @@ public class Menu extends Application {
 
 		primaryStage.setTitle("QuizLab");
 		primaryStage.setScene(scene);
-        primaryStage.setMaximized(true);
+		primaryStage.setMaximized(true);
 		primaryStage.show();
 	}
 
