@@ -11,6 +11,11 @@ import java.util.TimerTask;
 
 import org.quizlab.quizlab_game.levels.Level;
 
+/**
+ * 
+ * Controlador del juego
+ *
+ */
 public class Controller implements EventHandler<KeyEvent> {
 	final private static double FRAMES_PER_SECOND = 5.0;
 

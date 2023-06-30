@@ -5,6 +5,11 @@ import javafx.fxml.FXML;
 
 import java.util.*;
 
+/**
+ * 
+ * Modelo del juego
+ *
+ */
 public class Model {
 	@FXML
 	private int rowCount;
@@ -105,31 +110,31 @@ public class Model {
 	private CellValue parseCellValue(char value, int row, int column) {
 		CellValue cellValue;
 		switch (value) {
-			case 'W':
-				cellValue = CellValue.WALL;
-				break;
-			case 'F':
-				cellValue = CellValue.FISH;
-				this.fishCount++;
-				break;
-			case '1':
-				cellValue = CellValue.ENEMY1HOME;
-				this.enemy1Location = new Point2D(row, column);
-				this.enemy1Velocity = new Point2D(-1, 0);
-				break;
-			case '2':
-				cellValue = CellValue.ENEMY2HOME;
-				this.enemy2Location = new Point2D(row, column);
-				this.enemy2Velocity = new Point2D(-1, 0);
-				break;
-			case 'P':
-				cellValue = CellValue.PLAYERHOME;
-				this.playerLocation = new Point2D(row, column);
-				this.playerVelocity = new Point2D(0, 0);
-				break;
-			default:
-				cellValue = CellValue.EMPTY;
-				break;
+		case 'W':
+			cellValue = CellValue.WALL;
+			break;
+		case 'F':
+			cellValue = CellValue.FISH;
+			this.fishCount++;
+			break;
+		case '1':
+			cellValue = CellValue.ENEMY1HOME;
+			this.enemy1Location = new Point2D(row, column);
+			this.enemy1Velocity = new Point2D(-1, 0);
+			break;
+		case '2':
+			cellValue = CellValue.ENEMY2HOME;
+			this.enemy2Location = new Point2D(row, column);
+			this.enemy2Velocity = new Point2D(-1, 0);
+			break;
+		case 'P':
+			cellValue = CellValue.PLAYERHOME;
+			this.playerLocation = new Point2D(row, column);
+			this.playerVelocity = new Point2D(0, 0);
+			break;
+		default:
+			cellValue = CellValue.EMPTY;
+			break;
 		}
 		return cellValue;
 	}
@@ -395,14 +400,14 @@ public class Model {
 	 */
 	public Direction intToDirection(int x) {
 		switch (x) {
-			case 0:
-				return Direction.LEFT;
-			case 1:
-				return Direction.RIGHT;
-			case 2:
-				return Direction.UP;
-			default:
-				return Direction.DOWN;
+		case 0:
+			return Direction.LEFT;
+		case 1:
+			return Direction.RIGHT;
+		case 2:
+			return Direction.UP;
+		default:
+			return Direction.DOWN;
 		}
 	}
 
@@ -491,16 +496,16 @@ public class Model {
 	 */
 	public Point2D changeVelocity(Direction direction) {
 		switch (direction) {
-			case LEFT:
-				return new Point2D(0, -1);
-			case RIGHT:
-				return new Point2D(0, 1);
-			case UP:
-				return new Point2D(-1, 0);
-			case DOWN:
-				return new Point2D(1, 0);
-			default:
-				return new Point2D(0, 0);
+		case LEFT:
+			return new Point2D(0, -1);
+		case RIGHT:
+			return new Point2D(0, 1);
+		case UP:
+			return new Point2D(-1, 0);
+		case DOWN:
+			return new Point2D(1, 0);
+		default:
+			return new Point2D(0, 0);
 		}
 	}
 

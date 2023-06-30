@@ -26,9 +26,8 @@ import java.util.List;
 import org.quizlab.quizlab_game.game.Controller;
 
 /**
- * Esta clase define un objeto menú
+ * Define el menú del juego
  * 
- * @see Application
  */
 public class Menu extends Application {
 
@@ -168,7 +167,6 @@ public class Menu extends Application {
 	 * 
 	 * @throws Exception Si se presenta cualquier excepción
 	 * @param primaryStage Descripción del primer parámetro.
-	 * @see Application#start
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
