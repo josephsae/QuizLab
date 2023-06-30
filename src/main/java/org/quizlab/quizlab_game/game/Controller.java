@@ -1,15 +1,25 @@
 package org.quizlab.quizlab_game.game;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
 import javafx.application.Platform;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import org.quizlab.quizlab_game.levels.Level;
+import org.quizlab.quizlab_game.question.Question;
+import org.quizlab.quizlab_game.question.RandomQuestionSelector;
 
 public class Controller implements EventHandler<KeyEvent> {
 	final private static double FRAMES_PER_SECOND = 5.0;
@@ -29,6 +39,7 @@ public class Controller implements EventHandler<KeyEvent> {
 
 	private Timer timer;
 	private boolean isPaused;
+	private boolean questionResult;
 
 	/**
 	 * Inicializa el controlador del juego
@@ -121,13 +132,72 @@ public class Controller implements EventHandler<KeyEvent> {
 	 */
 	private void checkGameOver() {
 		if (model.hasLostGame()) {
-			setGameOverLabel("Perdiste", "red");
 			pause();
+
+			Stage questionStage = new Stage();
+			showQuestionDialog(questionStage);
+			boolean isCorrectQuestion = getQuestionResult();
+
+			if (isCorrectQuestion) {
+				this.startTimer();
+				this.model.continueGame();
+			} else {
+				setGameOverLabel("Perdiste", "red");
+			}
 		}
 		if (model.hasWonGame()) {
 			setGameOverLabel("¡Ganaste!", "green");
 			pause();
 		}
+	}
+
+	private void showQuestionDialog(Stage questionStage) {
+		Stage dialogStage = new Stage();
+		dialogStage.initModality(Modality.APPLICATION_MODAL);
+		dialogStage.initOwner(questionStage);
+		dialogStage.initStyle(StageStyle.UTILITY);
+
+		RandomQuestionSelector randomQuestionSelector = new RandomQuestionSelector();
+		Question question = randomQuestionSelector.getRandomQuestion();
+
+		Label statementLabel = new Label(question.getStatement());
+		Button option1Button = new Button(question.getOptions()[0]);
+		Button option2Button = new Button(question.getOptions()[1]);
+		Button option3Button = new Button(question.getOptions()[2]);
+
+		option1Button.setOnAction(e -> {
+			setQuestionResult(question.esRespuestaCorrecta(option1Button.getText()));
+			dialogStage.close();
+		});
+
+		option2Button.setOnAction(e -> {
+			setQuestionResult(question.esRespuestaCorrecta(option2Button.getText()));
+			dialogStage.close();
+		});
+
+		option3Button.setOnAction(e -> {
+			setQuestionResult(question.esRespuestaCorrecta(option3Button.getText()));
+			dialogStage.close();
+		});
+
+		VBox vbox = new VBox(20);
+		vbox.setPadding(new Insets(60));
+		vbox.setAlignment(Pos.CENTER);
+		vbox.getChildren().addAll(statementLabel, option1Button, option2Button, option3Button);
+
+		Scene scene = new Scene(vbox);
+		scene.getStylesheets().add(getClass().getResource("/org/quizlab/quizlab_game/styles.css").toExternalForm());
+
+		dialogStage.setScene(scene);
+		dialogStage.showAndWait();
+	}
+
+	public Boolean getQuestionResult() {
+		return questionResult;
+	}
+
+	public void setQuestionResult(Boolean questionResult) {
+		this.questionResult = questionResult;
 	}
 
 	/**
