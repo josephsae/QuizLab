@@ -154,6 +154,14 @@ public class Model {
 	}
 
 	/**
+	 * Inicia el escenario del nivel
+	 */
+	public void continueGame() {
+		this.hasLost = false;
+		this.hasWon = false;
+	}
+
+	/**
 	 * Inicia el escenario del nivel para el siguiente nivel
 	 *
 	 */
@@ -321,12 +329,8 @@ public class Model {
 	 * @param location Ubicación vectorial
 	 * @return
 	 */
-	private Point2D moveTowardsPlayerInColumn(Point2D location) {
-		if (location.getX() > this.playerLocation.getX()) {
-			return changeVelocity(Direction.UP);
-		} else {
-			return changeVelocity(Direction.DOWN);
-		}
+	private boolean isSameColumnAsPlayer(Point2D location) {
+		return location.getY() == this.playerLocation.getY();
 	}
 
 	/**
@@ -416,31 +420,32 @@ public class Model {
 	}
 
 	/**
-	 * Restablece la ubicación y la velocidad del enemigo a su estado de origen
+	 * Obtiene la ubicación de origen de la entidad solicitada
+	 * 
+	 * @return Ubicación de origen de la entidad
 	 */
-	private void sendEnemyHome(CellValue enemyHome, Point2D enemyLocation, Point2D enemyVelocity) {
+	private Point2D getEntityHomeLocation(CellValue entityHome, Point2D entityLocation, Point2D entityVelocity) {
 		for (int row = 0; row < rowCount; row++) {
 			for (int column = 0; column < columnCount; column++) {
-				if (grid[row][column] == enemyHome) {
-					enemyLocation = new Point2D(row, column);
+				if (grid[row][column] == entityHome) {
+					return new Point2D(row, column);
 				}
 			}
 		}
-		enemyVelocity = new Point2D(-1, 0);
+		return entityLocation;
 	}
 
 	/**
-	 * Envía al enemigo 1 a su ubicación de origen
+	 * Restablece a todas la entidades a la ubicación de origen
 	 */
-	public void sendEnemy1Home() {
-		sendEnemyHome(CellValue.ENEMY1HOME, enemy1Location, enemy1Velocity);
-	}
+	private void resetAllPositions() {
+		enemy1Location = getEntityHomeLocation(CellValue.ENEMY1HOME, enemy1Location, enemy1Velocity);
+		enemy2Location = getEntityHomeLocation(CellValue.ENEMY2HOME, enemy2Location, enemy2Velocity);
+		playerLocation = getEntityHomeLocation(CellValue.PLAYERHOME, playerLocation, playerVelocity);
 
-	/**
-	 * Envía al enemigo 2 a su ubicación de origen
-	 */
-	public void sendEnemy2Home() {
-		sendEnemyHome(CellValue.ENEMY2HOME, enemy2Location, enemy2Velocity);
+		enemy1Velocity = new Point2D(-1, 0);
+		enemy2Velocity = new Point2D(-1, 0);
+		playerVelocity = new Point2D(-1, 0);
 	}
 
 	/**
@@ -476,6 +481,8 @@ public class Model {
 	 */
 	private void checkEnemyCollision() {
 		if (playerLocation.equals(enemy1Location) || playerLocation.equals(enemy2Location)) {
+			resetAllPositions();
+
 			hasLost = true;
 			playerVelocity = new Point2D(0, 0);
 		}
@@ -605,7 +612,7 @@ public class Model {
 	 * 
 	 * Obtiene el número de manzanas restantes
 	 * 
-	 * @return 
+	 * @return
 	 */
 	public int getFishCount() {
 		return fishCount;
